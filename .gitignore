@@ -1,0 +1,29 @@
+# virtual environments
+.venv/
+venv/
+env/
+
+# caches
+.cache/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# packaging
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# local data
+data/
