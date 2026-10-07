@@ -1,16 +1,33 @@
 [build-system]
-requires = ["setuptools>=65", "wheel", "setuptools_scm[toml]>=6.2"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "versioningit"]
+build-backend = "hatchling.build"
 
-[tool.setuptools_scm]
-fallback_version = "0.0.0"
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.versioningit.vcs]
+match = ["[0-9]*.[0-9]*.[0-9]*", "[0-9]*.[0-9]*.[0-9]*.dev[0-9]*"]
+default-tag = "0.0.0"
+
+[tool.versioningit.next-version]
+method = "smallest-release"
+
+[tool.versioningit.write]
+method = { module = "write_version_info", value = "write_version_info" }
+path = "bioio_emd/_version.py"
+
+[tool.versioningit.format]
+distance = "{base_version}.post{distance}+{vcs}{rev}"
+dirty = "{base_version}+d{build_date:%Y%m%d}"
+distance-dirty = "{base_version}.post{distance}+{vcs}{rev}.d{build_date:%Y%m%d}"
 
 [project]
 name = "bioio-emd"
 description = "A BioIO plugin for reading and writing EMD images."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT License" }
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
 authors = [
   { email = "khsiller@gmail.com", name = "ksiller" },
 ]
@@ -38,12 +55,12 @@ bioio-emd = "bioio_emd"
 [project.entry-points."bioio.writers"]
 EmdWriter = "bioio_emd.writers:EmdWriter"
 
-[tool.setuptools]
-zip-safe = false
-include-package-data = true
+[tool.hatch.build]
+# _version.py is generated at build time and gitignored, so include it explicitly
+artifacts = ["bioio_emd/_version.py"]
 
-[tool.setuptools.packages.find]
-exclude = ["*tests/*"]
+[tool.hatch.build.targets.sdist]
+include = ["/bioio_emd", "/README.md", "/LICENSE", "/pyproject.toml", "/write_version_info.py"]
 
-[tool.setuptools.package-data]
-"*" = ["py.typed"]
+[tool.hatch.build.targets.wheel]
+packages = ["bioio_emd"]

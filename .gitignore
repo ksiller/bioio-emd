@@ -24,6 +24,7 @@ __pycache__/
 .eggs/
 build/
 dist/
+bioio_emd/_version.py
 
 # local data
 data/
